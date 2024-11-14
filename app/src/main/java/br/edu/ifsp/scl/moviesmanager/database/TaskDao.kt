@@ -1,5 +1,6 @@
 package br.edu.ifsp.scl.moviesmanager.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -22,5 +23,5 @@ interface TaskDao {
     suspend fun deleteAll()
 
     @Query("SELECT * FROM task_table ORDER BY timestamp DESC")
-    suspend fun getAllTasks()
+    fun getAllTasks(): LiveData<List<TaskEntry>>
 }
