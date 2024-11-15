@@ -15,13 +15,26 @@ import br.edu.ifsp.scl.moviesmanager.viewmodel.TaskViewModel
 class TaskFragment : Fragment() {
 
     private val viewModel: TaskViewModel by viewModels()
+    private lateinit var adapter: TaskAadapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentTaskBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
+        adapter = TaskAadapter()
+
+        viewModel.getAllTasks.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+
         binding.apply {
+
+            binding.recyclerView.adapter = adapter
+
             floatingActionButton.setOnClickListener() {
                 findNavController().navigate(R.id.action_addFragment_to_taskFragment)
             }
